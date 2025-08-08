@@ -68,3 +68,25 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+BEFORE START
+git checkout yash-dlt
+git pull
+
+AFTER CHANGES
+git add .
+git commit -m "Commit reason Message"
+git push origin yash-dlt
+
+PULL REQUEST
+->https://github.com/YAGAVEN/DLT
+->pull requests
+->new pull request
+->compare change(main to yash-dlt)
+->create pull request (optional add desc)
+->create
+
+
+
+
