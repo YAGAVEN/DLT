@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../index.css';
+import { useContext } from 'react';
+import { UserContext } from './UserContext';
+
 
 function Login() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+  username, setUsername,
+  password, setPassword,} = useContext(UserContext);
   const navigate = useNavigate();
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Empty field check
-    if (!username || !email || !password) {
+    if (!username  || !password) {
       alert("Please fill in all fields");
       return;
     }
@@ -39,13 +42,6 @@ function Login() {
           placeholder="USER NAME"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-        />
-
-        <input
-          type="email"
-          placeholder="EMAIL"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
