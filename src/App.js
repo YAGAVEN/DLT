@@ -4,19 +4,25 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import ForgotPassword from './components/ForgotPassword';
 import Tracker from './components/Tracker';
+import { UserProvider } from "./components/UserContext";
+import React from 'react';
+import UserContext from './components/UserContext'; 
 
 
-function App() {
+function App() {  
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/Signup" element={<Signup />} />
-        <Route path="/ForgotPassword" element={<ForgotPassword />} />
-        <Route path="/Tracker" element={<Tracker />} />
-      </Routes>
-    </Router>  
+    <UserProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Signup />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Tracker" element={<Tracker />} />
+          <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        </Routes>
+      </Router>
+    </UserProvider>
   );
 }
+
 
 export default App;
