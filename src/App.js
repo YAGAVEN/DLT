@@ -5,8 +5,7 @@ import Signup from './components/Signup';
 import ForgotPassword from './components/ForgotPassword';
 import Tracker from './components/Tracker';
 import { UserProvider } from "./components/UserContext";
-import React from 'react';
-import UserContext from './components/UserContext'; 
+
 
 
 function App() {  
