@@ -31,6 +31,11 @@ function Tracker() {
           <button>Logout</button>
         </Link>
       </div>
+      <div className="signup">
+        <Link to="/Signup">
+          <button>Sign in</button>
+        </Link>
+      </div>
 
       <div className="container">
         <div className="title">DOCUMENT LIFE TRACKER</div>
