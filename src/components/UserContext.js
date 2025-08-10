@@ -7,6 +7,7 @@ export const UserProvider = ({ children }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState(""); // if needed
   const [password, setPassword] = useState("");
+  const [mobilenumber, setMobileNumber] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +32,9 @@ export const UserProvider = ({ children }) => {
         showConfirmPassword,
         setShowConfirmPassword,
         documents,
-        setDocuments, // Placeholder for document management
+        setDocuments,
+        mobilenumber,
+        setMobileNumber // Placeholder for document management
       }}
     >
       {children}

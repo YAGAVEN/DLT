@@ -8,7 +8,7 @@ function ForgotPassword() {
       <div className="title">DOCUMENT LIFE TRACKER</div>
       <div className="section-title">FORGOT PASSWORD</div>
 
-      <input type="email" placeholder="Enter your registered email" />
+      <input type="email" placeholder="Enter your registered email/ Mobile number" />
       <button type="button">Send Reset Link</button>
 
       <div style={{ marginTop: '20px' }}>

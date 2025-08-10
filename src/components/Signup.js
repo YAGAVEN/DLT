@@ -18,6 +18,8 @@ const {
     setShowPassword,
     showConfirmPassword,
     setShowConfirmPassword,
+    mobilenumber,
+    setMobileNumber
   } = useContext(UserContext);
 
 
@@ -26,10 +28,15 @@ const {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!username || !password || !confirmPassword) {
+    if (!username || !password || !confirmPassword || !email || !mobilenumber) {
       alert("Please fill in all fields");
       return;
     }
+    const mobilePattern = /^[0-9]{10}$/;
+  if (!mobilePattern.test(mobilenumber)) {
+    alert("Enter a valid mobile number (10 digits only, no symbols or alphabets).");
+    return;
+  }
 
     const passwordPattern = /^(?=.*[A-Za-z])(?=.*[^A-Za-z0-9])(?=.{8,})/;
     if (!passwordPattern.test(password)) {
@@ -63,6 +70,12 @@ const {
         placeholder="USER NAME"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Mobile Number"
+        value={mobilenumber}
+        onChange={(e) => setMobileNumber(e.target.value)}
       />
       <input
         type="text"

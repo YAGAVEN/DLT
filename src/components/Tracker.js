@@ -40,7 +40,6 @@ function Tracker() {
       <div className="container">
         <div className="title">DOCUMENT LIFE TRACKER</div>
         <h1>Hello {username}</h1>
-
         {/* Dropdown for document type */}
         <select value={selectedDoc} onChange={(e) => setSelectedDoc(e.target.value)}>
           <option value="" disabled>Select Document Type</option>
@@ -52,7 +51,7 @@ function Tracker() {
           <option value="Income Certificate">Income Certificate</option>
           <option value="Other">Other</option>
         </select>
-
+        <h1>Expiry Date</h1>
         {/* Date picker */}
         <input type="date" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)} />
 
