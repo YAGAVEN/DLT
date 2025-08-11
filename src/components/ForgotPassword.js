@@ -12,7 +12,7 @@ function ForgotPassword() {
       <button type="button">Send Reset Link</button>
 
       <div style={{ marginTop: '20px' }}>
-        <Link to="/">
+        <Link to="/Login">
           <button type="button">Back to Login</button>
         </Link>
       </div>

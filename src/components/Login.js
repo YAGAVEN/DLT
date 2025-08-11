@@ -33,10 +33,15 @@ function Login() {
 
   return (
     <div>
+      <div className="signup">
+              <Link to="/ForgotPassword">
+                <button>Forgot Password</button>
+              </Link>
+            </div>
       <form className="container" onSubmit={handleSubmit}>
         <div className="title">DOCUMENT LIFE TRACKER</div>
         <div className="section-title">LOGIN</div>
-
+        
         <input
           type="text"
           placeholder="USER NAME"
