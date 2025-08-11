@@ -67,7 +67,7 @@ const {
 
       <input
         type="text"
-        placeholder="USER NAME"
+        placeholder="User Name"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
@@ -87,7 +87,7 @@ const {
       <div style={{ position: "relative" }}>
         <input
           type={showPassword ? "text" : "password"}
-          placeholder="PASSWORD"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -116,7 +116,7 @@ const {
       <div style={{ position: "relative" }}>
         <input
           type={showConfirmPassword ? "text" : "password"}
-          placeholder="CONFIRM PASSWORD"
+          placeholder="Confirm password"
           value={confirmPassword}
           onChange={(e) => {
             setConfirmPassword(e.target.value);
