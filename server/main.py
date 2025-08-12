@@ -96,7 +96,6 @@ def update_user(user_id: int, user: UserBase, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_user)
     return db_user
-
 @app.delete("/users/{user_id}")
 def delete_user(user_id: int, db: Session = Depends(get_db)):
     db_user = db.query(models.User).filter(models.User.user_id == user_id).first()
