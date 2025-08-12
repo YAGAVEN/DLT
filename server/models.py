@@ -27,7 +27,7 @@ class Document(Base):
     doc_id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey('users.user_id', ondelete='CASCADE'), nullable=False)
     document_type = Column(String(100), nullable=False)
-    expiry_date = Column(Date, nullable=False)
+    expiry_date = Column(String(10), nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
 
     # Relationship back to users
