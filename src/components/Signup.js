@@ -25,7 +25,7 @@ const {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!username || !password || !confirmPassword || !email || !mobilenumber) {
@@ -52,8 +52,39 @@ const {
     }
 
     setPasswordMismatch(false);
-    navigate("/tracker");
+    // navigate("/tracker");
+    
+    // Connecting to fastapi
+    try{
+      const response=await fetch("http://localhost:8000/users/",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          name: username,
+          mobile_number: mobilenumber,
+          email: email,
+          password_hash: password
+        })
+      });
+    if(response.ok){
+      const data=await response.json();
+      console.log("Signup Successful", data);
+      alert("Signup Successful");
+      navigate("/tracker");
+    }
+    else{
+      const errorData = await response.json();
+      alert(errorData.detail || "Signup failed");
+    }
+  }
+    catch(error){
+      console.error("Error during signup", error);
+      alert("An error occured, please try again");
+    }
   };
+
 
   return (
     <><div className="logout">

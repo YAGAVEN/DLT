@@ -17,9 +17,16 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/Tracker" element={<Tracker />} />
           <Route path="/ForgotPassword" element={<ForgotPassword />} />
+          <div className="App">
+      <h1>Document Life Tracker</h1>
+        <AddDocumentForm />
+
+      <DocumentList />
+    </div>
         </Routes>
       </Router>
     </UserProvider>
+     
   );
 }
 

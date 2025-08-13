@@ -11,7 +11,7 @@ function Login() {
   const navigate = useNavigate();
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     // Empty field check
@@ -28,7 +28,34 @@ function Login() {
     }
 
     // All good, navigate to tracker
-    navigate('/Tracker');
+    // navigate('/Tracker');
+    
+     try {
+      const response = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login successful:", data);
+        alert("Login successful!");
+        navigate("/tracker"); // navigates only after success
+      } else {
+        const errorData = await response.json();
+        alert(errorData.detail || "Invalid username or password");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      alert("An error occurred. Please try again.");
+    }
+
   };
 
   return (
