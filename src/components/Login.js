@@ -1,32 +1,43 @@
-import { useNavigate, Link } from 'react-router-dom';
-import '../index.css';
-import { useContext } from 'react';
-import { UserContext } from './UserContext';
-
+import { useNavigate } from "react-router-dom";
+import "../index.css";
+import { useContext, useState, useEffect } from "react";
+import { UserContext } from "./UserContext";
+import axios from "axios";
 
 function Login() {
-  const {
-  username, setUsername,
-  password, setPassword,} = useContext(UserContext);
+  const [localUsername, setLocalUsername] = useState("");
+  const [localPassword, setLocalPassword] = useState("");
+  const { setUserId ,setUsername } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Clear fields on load
+  useEffect(() => {
+    setLocalUsername("");
+    setLocalPassword("");
+  }, []);
+  
 
+<<<<<<< HEAD
   const handleSubmit = async(e) => {
+=======
+  const handleSubmit = async (e) => {
+>>>>>>> 4666202b0ab45bc2fac19746cccf889cab456f30
     e.preventDefault();
 
-    // Empty field check
-    if (!username  || !password) {
+    if (!localUsername || !localPassword) {
       alert("Please fill in all fields");
       return;
     }
 
-    // Password pattern check
-    const passwordPattern = /^(?=.*[A-Za-z])(?=.*[^A-Za-z0-9])(?=.{8,})/;
-    if (!passwordPattern.test(password)) {
-      alert("Password must be at least 8 characters long, include at least 1 letter and 1 special symbol(@,!,#,*,%,^).");
-      return;
-    }
+    setLoading(true);
+    try {
+      const res = await axios.post("http://127.0.0.1:8000/login", {
+        username: localUsername,
+        password: localPassword
+      });
 
+<<<<<<< HEAD
     // All good, navigate to tracker
     // navigate('/Tracker');
     
@@ -56,42 +67,54 @@ function Login() {
       alert("An error occurred. Please try again.");
     }
 
+=======
+      if (res.data && res.data.user_id&&res.data.name) {
+    setUserId(res.data.user_id);        // store ID
+    setUsername(res.data.name);       // store username from API
+    navigate("/Tracker");               // go to Tracker
+    return;
+}
+
+      alert("Unexpected server response. Please try again.");
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert(error.response?.data?.detail || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleSignup = () => {
+    navigate("/Signup");
+>>>>>>> 4666202b0ab45bc2fac19746cccf889cab456f30
   };
 
   return (
-    <div>
-      <div className="signup">
-              <Link to="/ForgotPassword">
-                <button>Forgot Password</button>
-              </Link>
-            </div>
-      <form className="container" onSubmit={handleSubmit}>
-        <div className="title">DOCUMENT LIFE TRACKER</div>
-        <div className="section-title">LOGIN</div>
-        
+    <>
+    <div className="logout">
+        <button onClick={handleSignup}>Signup</button>
+      </div>
+    <div className="container">
+      <div className="title">DOCUMENT LIFE TRACKER</div>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="USER NAME"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={localUsername}
+          onChange={(e) => setLocalUsername(e.target.value)}
         />
-
         <input
           type="password"
           placeholder="PASSWORD"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={localPassword}
+          onChange={(e) => setLocalPassword(e.target.value)}
         />
-
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Submit"}
+        </button>
       </form>
-
-      <div className="logout">
-        <Link to="/Signup">
-          <button type="button">Sign Up</button>
-        </Link>
-      </div>
     </div>
+    </>
   );
 }
 
