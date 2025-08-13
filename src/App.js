@@ -1,27 +1,22 @@
-import './index.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import ForgotPassword from './components/ForgotPassword';
-import Tracker from './components/Tracker';
-import { UserProvider } from "./components/UserContext";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import Tracker from "./components/Tracker";
+import { UserProvider } from "./components/UserContext"; // path should be correct
 
-
-
-function App() {  
+function App() {
   return (
     <UserProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Signup />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Tracker" element={<Tracker />} />
-          <Route path="/ForgotPassword" element={<ForgotPassword />} />
-        </Routes>
-      </Router>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />       {/* Default page */}
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Signup" element={<Signup />} />
+        <Route path="/Tracker" element={<Tracker />} />
+      </Routes>
+    </Router>
     </UserProvider>
   );
 }
-
 
 export default App;

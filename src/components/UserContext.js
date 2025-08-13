@@ -6,6 +6,7 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState(""); // if needed
+  const [userId, setUserId] = useState();
   const [password, setPassword] = useState("");
   const [mobilenumber, setMobileNumber] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -34,7 +35,9 @@ export const UserProvider = ({ children }) => {
         documents,
         setDocuments,
         mobilenumber,
-        setMobileNumber // Placeholder for document management
+        setMobileNumber,
+        userId,
+        setUserId
       }}
     >
       {children}
