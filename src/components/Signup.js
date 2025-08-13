@@ -56,7 +56,7 @@ function Signup() {
   return (
     <>
     <div className="logout">
-        <button onClick={handleLogout}>Logout</button>
+        <button onClick={handleLogout}>Login</button>
       </div>
     <div className="container">
       <div className="title">DOCUMENT LIFE TRACKER</div>

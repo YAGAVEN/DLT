@@ -4,7 +4,7 @@ import "../index.css";
 import { UserContext } from "./UserContext";
 
 function Tracker() {
-  const { username, setUsername, userId, setUserId, documents, setDocuments } = useContext(UserContext);
+  const { username, setUsername, userId, setUserId, documents, setDocuments ,} = useContext(UserContext);
   const [selectedDoc, setSelectedDoc] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [loadingDocs, setLoadingDocs] = useState(true);
@@ -86,9 +86,7 @@ function Tracker() {
     setDocuments([]);
     navigate("/Login");
   };
-   const handleSignup = () => {
-    navigate("/Signup");
-  };
+   
 
   return (
     <>
@@ -96,9 +94,7 @@ function Tracker() {
       <div className="logout">
         <button onClick={handleLogout}>Logout</button>
       </div>
-      <div className="signup">
-        <button onClick={handleSignup}>Signup</button>
-      </div>
+    
 
       {/* Main Content */}
       <div className="container">
