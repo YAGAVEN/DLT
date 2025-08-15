@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from reminder import start_scheduler, check_and_send_reminders
 from sqlalchemy.orm import Session
 from typing import List
 from pydantic import BaseModel
@@ -10,6 +11,8 @@ from database import SessionLocal, engine
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+# Starts the reminder scheduler when the server starts
+start_scheduler()
 
 # CORS middleware setup
 app.add_middleware(
@@ -190,3 +193,7 @@ def get_recently_logged_user(db: Session = Depends(get_db)):
     if not recent_user:
         raise HTTPException(status_code=404, detail="No recent login found")
     return {"user_id": recent_user.user_id}
+@app.get("/send-reminders-now")
+def send_reminders_now():
+    check_and_send_reminders()
+    return {"message": "Manual reminders sent successfully"}
