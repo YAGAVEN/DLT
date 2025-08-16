@@ -34,38 +34,6 @@ function Signup() {
     }
 
     setPasswordMismatch(false);
-<<<<<<< HEAD
-    // navigate("/tracker");
-    
-    // Connecting to fastapi
-    try{
-      const response=await fetch("http://localhost:8000/users/",{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          name: username,
-          mobile_number: mobilenumber,
-          email: email,
-          password_hash: password
-        })
-      });
-    if(response.ok){
-      const data=await response.json();
-      console.log("Signup Successful", data);
-      alert("Signup Successful");
-      navigate("/tracker");
-    }
-    else{
-      const errorData = await response.json();
-      alert(errorData.detail || "Signup failed");
-    }
-  }
-    catch(error){
-      console.error("Error during signup", error);
-      alert("An error occured, please try again");
-=======
 
     try {
       const res = await axios.post("http://127.0.0.1:8000/users/", {
@@ -82,7 +50,6 @@ function Signup() {
       }
     } catch (error) {
       alert(error.response?.data?.detail || "Signup failed. Try again.");
->>>>>>> 4666202b0ab45bc2fac19746cccf889cab456f30
     }
   };
 
