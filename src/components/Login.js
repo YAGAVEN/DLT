@@ -7,7 +7,7 @@ import axios from "axios";
 function Login() {
   const [localUsername, setLocalUsername] = useState("");
   const [localPassword, setLocalPassword] = useState("");
-  const { setUserId ,setUsername } = useContext(UserContext);
+  const { setUserId ,setUsername, setPassword, setMobileNumber, setConfirmPassword } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
