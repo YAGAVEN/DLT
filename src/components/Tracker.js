@@ -1,24 +1,25 @@
 import React, { useState, useContext, useEffect } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../index.css";
 import { UserContext } from "./UserContext";
 
 function Tracker() {
-  const { username, setUsername, userId, setUserId, documents, setDocuments ,} = useContext(UserContext);
+  const { username, setUsername, userId, setUserId, documents, setDocuments } =
+    useContext(UserContext);
   const [selectedDoc, setSelectedDoc] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [loadingDocs, setLoadingDocs] = useState(true);
 
   const navigate = useNavigate();
 
-  // Redirect to Login if no user is logged in
+  // Redirect if not logged in
   useEffect(() => {
     if (!userId) {
       navigate("/Login");
     }
   }, [userId, navigate]);
 
-  // Fetch documents for current user
+  // Fetch user documents
   useEffect(() => {
     if (!userId) {
       setLoadingDocs(false);
@@ -28,9 +29,7 @@ function Tracker() {
     fetch(`http://127.0.0.1:8000/documents/user/${userId}`)
       .then(async (res) => {
         if (!res.ok) {
-          if (res.status === 404) {
-            return []; // No docs yet
-          }
+          if (res.status === 404) return [];
           throw new Error("Failed to fetch documents");
         }
         return res.json();
@@ -43,7 +42,7 @@ function Tracker() {
         console.error("Error fetching documents:", err);
         setLoadingDocs(false);
       });
-  }, [userId,username, setDocuments]);
+  }, [userId, setDocuments]);
 
   // Save new document
   const handleSave = () => {
@@ -55,13 +54,13 @@ function Tracker() {
     const newDoc = {
       user_id: userId,
       document_type: selectedDoc,
-      expiry_date: expiryDate // YYYY-MM-DD format
+      expiry_date: expiryDate,
     };
 
     fetch("http://127.0.0.1:8000/documents/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newDoc)
+      body: JSON.stringify(newDoc),
     })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to save document");
@@ -79,6 +78,21 @@ function Tracker() {
       });
   };
 
+  // Delete document
+  const handleDelete = (docId) => {
+    fetch(`http://127.0.0.1:8000/documents/${docId}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to delete");
+        setDocuments((prev) => prev.filter((doc) => doc.doc_id !== docId));
+      })
+      .catch((err) => {
+        console.error("Error deleting document:", err);
+        alert("Error: Could not delete document");
+      });
+  };
+
   // Logout
   const handleLogout = () => {
     setUserId(null);
@@ -86,24 +100,26 @@ function Tracker() {
     setDocuments([]);
     navigate("/Login");
   };
-   
 
   return (
     <>
-      {/* Top Buttons */}
+      {/* Logout Button */}
       <div className="logout">
         <button onClick={handleLogout}>Logout</button>
       </div>
-    
 
-      {/* Main Content */}
       <div className="container">
-        <div className="title">DOCUMENT LIFE TRACKER</div>
-        <h1>Hello {username }</h1>
+        <div className="title" style={{color: "rgb(0, 0, 128)"}}>DOCUMENT LIFE TRACKER</div>
+        <h1>Hello {username}</h1>
 
         {/* Add Document Form */}
-        <select value={selectedDoc} onChange={(e) => setSelectedDoc(e.target.value)}>
-          <option value="" disabled>Select Document Type</option>
+        <select
+          value={selectedDoc}
+          onChange={(e) => setSelectedDoc(e.target.value)}
+        >
+          <option value="" disabled>
+            Select Document Type
+          </option>
           <option value="Aadhar Card">Aadhar Card</option>
           <option value="Vehicle Registration">Vehicle Registration</option>
           <option value="Passport">Passport</option>
@@ -122,25 +138,41 @@ function Tracker() {
 
         <button onClick={handleSave}>SET & SAVE</button>
 
-        {/* Documents List */}
+        {/* Document List */}
         {loadingDocs ? (
           <p>Loading documents...</p>
         ) : documents.length === 0 ? (
           <p>No documents yet. Add one above.</p>
         ) : (
-          <div className="grid">
-            <div className="card">
-              <strong>📁 DOCUMENTS</strong>
-              {documents.map((doc) => (
-                <div key={doc.doc_id}>{doc.document_type}</div>
-              ))}
-            </div>
-            <div className="card">
-              <strong>📅 DATE OF EXPIRY</strong>
-              {documents.map((doc) => (
-                <div key={doc.doc_id}>{doc.expiry_date}</div>
-              ))}
-            </div>
+          <div className="grid" style={{display: "flex", flexDirection: "column", gap: "10px", width: "100%"}}>  
+          {documents.map((doc) => (
+              <div
+                key={doc.doc_id}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "8px",
+                  border: "1px solid #ccc",
+                  borderRadius: "10px",
+                  width: "100%"             
+                }}>
+                <span style={{whiteSpace: "nowrap"}}>
+                  {doc.document_type} - {doc.expiry_date}
+                </span>
+                <button
+                  onClick={() => handleDelete(doc.doc_id)}
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    border: "none",
+                    padding: "6px 0",
+                    width: "80px",
+                    cursor: "pointer",
+                    borderRadius: "4px",
+                  }}>Delete</button>
+              </div>
+            ))}
           </div>
         )}
       </div>

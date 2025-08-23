@@ -45,7 +45,7 @@ def check_and_send_reminders():
                 <p>Hello {user.name},</p>
                 <p>Your document <b>{doc.document_type}</b> will expire on <b>{doc.expiry_date}</b>.</p>
                 <p>Please take necessary action before expiry.</p>
-                <p>Regards,<br><b>Team - Document Life Tracker</b></p>
+                <p>Regards,<br>Team - Document Life Tracker</p>
             """
             send_email(user.email, "Document Expiry Reminder", body)
     finally:
@@ -53,6 +53,6 @@ def check_and_send_reminders():
 
 def start_scheduler():
     scheduler = BackgroundScheduler(timezone="Asia/Kolkata")
-    scheduler.add_job(check_and_send_reminders, "cron", hour=9, minute=0)
+    scheduler.add_job(check_and_send_reminders, "cron", hour=9, minute=00)
     scheduler.start()
     print("📅 Reminder scheduler started (daily at 9:00 am)")
