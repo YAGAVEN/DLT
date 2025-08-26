@@ -2,11 +2,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Tracker from "./components/Tracker";
-import { UserProvider } from "./components/UserContext"; // path should be correct
+// Removed duplicate provider: UserProvider is already applied in index.js
 
 function App() {
   return (
-    <UserProvider>
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />       {/* Default page */}
@@ -15,7 +14,6 @@ function App() {
         <Route path="/Tracker" element={<Tracker />} />
       </Routes>
     </Router>
-    </UserProvider>
      
   );
 }
