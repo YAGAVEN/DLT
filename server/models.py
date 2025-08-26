@@ -12,6 +12,8 @@ class User(Base):
     email = Column(String(255), nullable=False, unique=True)
     password_hash = Column(String(255), nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
+    # Optional: track last_login if needed by API
+    # last_login = Column(TIMESTAMP)
 
     # Relationship to documents
     documents = relationship(

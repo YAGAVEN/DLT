@@ -9,6 +9,7 @@ function Login() {
   const [localPassword, setLocalPassword] = useState("");
   const { setUserId ,setUsername, setPassword, setMobileNumber ,setConfirmPassword, setEmail} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   // Clear fields on load
@@ -71,12 +72,21 @@ function Login() {
           value={localUsername}
           onChange={(e) => setLocalUsername(e.target.value)}
         />
-        <input
-          type="password"
-          placeholder="PASSWORD"
-          value={localPassword}
-          onChange={(e) => setLocalPassword(e.target.value)}
-        />
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="PASSWORD"
+            value={localPassword}
+            onChange={(e) => setLocalPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((v) => !v)}
+            style={{ padding: "6px 10px" }}
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+        </div>
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Submit"}
         </button>

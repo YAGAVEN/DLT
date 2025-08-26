@@ -8,6 +8,7 @@ function Tracker() {
     useContext(UserContext);
   const [selectedDoc, setSelectedDoc] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
+  const [minDate, setMinDate] = useState("");
   const [loadingDocs, setLoadingDocs] = useState(true);
 
   const navigate = useNavigate();
@@ -18,6 +19,17 @@ function Tracker() {
       navigate("/Login");
     }
   }, [userId, navigate]);
+  // Set min selectable date to tomorrow (future-only)
+  useEffect(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const yyyy = tomorrow.getFullYear();
+    const mm = String(tomorrow.getMonth() + 1).padStart(2, "0");
+    const dd = String(tomorrow.getDate()).padStart(2, "0");
+    setMinDate(`${yyyy}-${mm}-${dd}`);
+  }, []);
+
 
   // Fetch user documents
   useEffect(() => {
@@ -48,6 +60,11 @@ function Tracker() {
   const handleSave = () => {
     if (!selectedDoc || !expiryDate) {
       alert("Please select a document and expiry date.");
+      return;
+    }
+
+    if (expiryDate < minDate) {
+      alert("Please choose a future date (not today or past).");
       return;
     }
 
@@ -134,6 +151,7 @@ function Tracker() {
           type="date"
           value={expiryDate}
           onChange={(e) => setExpiryDate(e.target.value)}
+          min={minDate}
         />
 
         <button onClick={handleSave}>SET & SAVE</button>
