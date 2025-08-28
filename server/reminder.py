@@ -22,9 +22,16 @@ def send_email(to_email, subject, body):
     msg["From"] = SENDER_EMAIL
     msg["To"] = to_email
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login(SENDER_EMAIL, SENDER_PASSWORD)
-        server.sendmail(SENDER_EMAIL, [to_email], msg.as_string())
+    if not SENDER_EMAIL or not SENDER_PASSWORD:
+        print("Email credentials not set; skipping email send")
+        return
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(SENDER_EMAIL, SENDER_PASSWORD)
+            server.sendmail(SENDER_EMAIL, [to_email], msg.as_string())
+    except Exception as exc:
+        print(f"Failed to send email to {to_email}: {exc}")
 
 def check_and_send_reminders():
     db: Session = SessionLocal()
@@ -51,8 +58,14 @@ def check_and_send_reminders():
     finally:
         db.close()
 
+_SCHEDULER = None
+
 def start_scheduler():
-    scheduler = BackgroundScheduler(timezone="Asia/Kolkata")
-    scheduler.add_job(check_and_send_reminders, "cron", hour=9, minute=00)
-    scheduler.start()
-    print("📅 Reminder scheduler started (daily at 9:00 am)")
+    global _SCHEDULER
+    if _SCHEDULER and _SCHEDULER.running:
+        return
+    _SCHEDULER = BackgroundScheduler(timezone="Asia/Kolkata")
+    # 09:00 IST daily
+    _SCHEDULER.add_job(check_and_send_reminders, "cron", hour=9, minute=0, id="reminders", replace_existing=True)
+    _SCHEDULER.start()
+    print("📅 Reminder scheduler started (daily at 9:00 am IST)")

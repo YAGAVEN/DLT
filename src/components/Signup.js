@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "../index.css";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "./UserContext";
 import axios from "axios";
 
@@ -19,6 +19,8 @@ function Signup() {
   };
 
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +42,7 @@ function Signup() {
         name: username,
         mobile_number: mobilenumber,
         email: email,
-        password_hash: password
+        password: password
       });
 
       if ((res.status === 200 || res.status === 201) && res.data?.user_id) {
@@ -66,8 +68,14 @@ function Signup() {
         <input type="text" placeholder="User Name" value={username} onChange={(e) => setUsername(e.target.value)} />
         <input type="text" placeholder="Mobile Number" value={mobilenumber} onChange={(e) => setMobileNumber(e.target.value)} />
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <button type="button" onClick={() => setShowPassword((v) => !v)} style={{ padding: "6px 10px" }}>{showPassword ? "Hide" : "Show"}</button>
+        </div>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <input type={showConfirmPassword ? "text" : "password"} placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+          <button type="button" onClick={() => setShowConfirmPassword((v) => !v)} style={{ padding: "6px 10px" }}>{showConfirmPassword ? "Hide" : "Show"}</button>
+        </div>
         {passwordMismatch && <p style={{ color: "red" }}>Passwords do not match</p>}
         <button type="submit">Sign Up</button>
       </form>
